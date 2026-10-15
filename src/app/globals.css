@@ -1,26 +1,62 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/*
+ * Tokens de design do meumercado (ver docs/03-design.md).
+ * Regra do Victor: fundo SEMPRE escuro; roxo e branco são as cores principais (logo, botões, destaques);
+ * verde só em números, economias e gráficos. Não existe tema claro.
+ * Use as classes do Tailwind geradas daqui (bg-fundo, text-muted, bg-roxo...). Nunca escreva hex soltos nas telas.
+ */
+@theme {
+  --color-fundo: #0e0c14;
+  --color-fundo-nav: #15121e;
+  --color-superficie: #1a1724;
+  --color-superficie-2: #241f33;
+  --color-borda: #2e2840;
+  --color-borda-forte: #3a3350;
+  --color-texto: #f4f2fa;
+  --color-texto-2: #c9c4da;
+  --color-muted: #a39db8;
+  --color-apagado: #6f6888;
+
+  --color-roxo: #7c3aed;
+  --color-roxo-claro: #b79cff;
+  --color-roxo-suave: #d4c4ff;
+  --color-roxo-fundo: #221637;
+  --color-roxo-chip: #2a2140;
+
+  --color-verde: #4ade80;
+  --color-verde-fundo: #2e5a42;
+  --color-ambar: #fbbf6a;
+  --color-laranja: #fb8a5c;
+
+  --font-display: var(--fonte-display), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--fonte-texto), ui-sans-serif, system-ui, sans-serif;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html,
+body {
+  background: var(--color-fundo);
+  color: var(--color-texto);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-roxo-claro);
+  outline-offset: 2px;
+}
+
+input::placeholder {
+  color: #8e88a6;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--color-roxo);
 }
