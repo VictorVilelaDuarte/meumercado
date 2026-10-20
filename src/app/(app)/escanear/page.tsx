@@ -5,11 +5,12 @@ import { nomeMercado } from "@/data/consultas";
 import { repositorio } from "@/data/repositorio";
 import { formatarReais } from "@/domain/formato";
 import { compararItensComMedia, totalNota } from "@/domain/gastos";
+import { LerNota } from "./LerNota";
 
 /**
  * Escanear nota (docs/06-telas.md#escanear).
- * A LEITURA REAL do QR code ainda não existe: depende do teste com notas reais (Fase 0, docs/05-roteiro.md).
- * Por enquanto a tela mostra o visor e o resumo da última nota de exemplo.
+ * A leitura REAL da nota já funciona pelo link do QR Code (LerNota → /api/nfce → Sefaz-SP).
+ * A câmera ainda não: entra na Fase 1 (docs/05-roteiro.md). O cartão "Última nota lida" ainda usa os dados de exemplo.
  */
 export default function Escanear() {
   const usuario = repositorio.usuarioAtual();
@@ -35,10 +36,12 @@ export default function Escanear() {
           <Icone nome="qr" tamanho={80} className="absolute left-[85px] top-[85px] text-borda-forte" />
         </div>
         <p className="max-w-[280px] text-center text-[15px] leading-snug text-texto-2">Aponte a câmera para o QR code no fim do cupom fiscal</p>
-        <p role="status" className="rounded-full border border-borda bg-superficie px-3.5 py-1.5 text-xs text-muted">
-          Leitura real da nota chega depois do teste com notas reais
+        <p className="rounded-full border border-borda bg-superficie px-3.5 py-1.5 text-xs text-muted">
+          Câmera em breve. Por enquanto, cole o link do QR Code
         </p>
       </div>
+
+      <LerNota />
 
       {ultima && (
         <Cartao className="flex flex-col gap-3.5">

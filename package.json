@@ -11,7 +11,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "typecheck": "tsc --noEmit",
-    "verificar": "npm run typecheck && npm run lint && npm test && npm run build && npm run test:e2e"
+    "verificar": "npm run typecheck && npm run lint && npm test && npm run test:db && npm run build && npm run test:e2e",
+    "test:db": "bash scripts/testar-banco.sh"
   },
   "dependencies": {
     "next": "15.5.4",
