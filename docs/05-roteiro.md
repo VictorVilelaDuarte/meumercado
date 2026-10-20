@@ -14,12 +14,13 @@ Marque `[x]` ao terminar e registre no `CHANGELOG.md`. Pegue sempre o primeiro i
 - [ ] PWA: manifest, ícone roxo, instalar na tela inicial
 
 ## Fase 1 — MVP com amigos
-- [ ] Supabase: tabelas (mercados, produtos, observacoes, notas, itens, usuarios, convites), políticas RLS garantindo privacidade das notas
+- [x] Supabase: tabelas, funções e políticas RLS garantindo privacidade das notas (2026-10-20, `docs/09-banco.md`, testado com `npm run test:db`)
+- [ ] Criar o projeto no Supabase e rodar a migração (o Victor, passo a passo em `docs/09-banco.md`)
 - [ ] `Repositorio` com Supabase (métodos `async`), mantendo o mock para os testes
 - [ ] Login (link mágico por e-mail) + fluxo de convite e aprovação de verdade
 - [ ] Escanear QR Code com a câmera do celular (`BarcodeDetector` com reserva em biblioteca)
-- [ ] Gravar a nota lida e os preços (a busca na Sefaz pelo servidor já existe: `POST /api/nfce`). Se veio só a resumida, tentar a completa depois para pegar EAN/NCM
-- [ ] Reconhecimento de produto (EAN → código do mercado → sugestão para o admin)
+- [ ] Gravar a nota lida e os preços: `POST /api/nfce` chama `registrar_nota` (já existe no banco) com `notaParaRegistro`. Se veio só a resumida, tentar a completa depois para pegar EAN/NCM
+- [ ] Tela do admin para pendências e revisão de produtos (o reconhecimento EAN → código da rede → pendência já está no banco)
 - [ ] Mercados reais pelo CNPJ da nota, com coordenadas (geocodificação do endereço)
 - [ ] Salvar lista de compras, alertas e despensa no banco
 - [ ] Deploy na Vercel

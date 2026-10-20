@@ -2,6 +2,17 @@
 
 Registre aqui cada etapa entregue, a mais recente no topo. Formato: data, o que mudou, como testar.
 
+## 2026-10-20 — Banco de dados (Supabase)
+
+- Esquema em `supabase/migrations/20261020000000_esquema_inicial.sql`: perfis, convites, mercados, produtos, códigos por rede,
+  preços compartilhados, notas e itens privados, pendências do admin, alertas e listas.
+- Privacidade no próprio banco (RLS): nota só o dono lê, nem o admin; preços sem ligação com pessoa; quem não foi aprovado não lê nada.
+- Funções: primeiro admin, gerar/usar convite, aprovar/recusar, `registrar_nota` (só o servidor; reconhece produto por EAN ou
+  código da rede, gera preços e pontos), resolver pendência e ranking do desafio.
+- `notaParaRegistro` (`src/nfce/registro.ts`) prepara a nota lida para o banco.
+- Testes: `npm run test:db` sobe um Postgres local e roda as regras + as 4 notas reais. Entrou no `npm run verificar`.
+- Ainda não ligado ao app (próximo passo). Como criar no Supabase: `docs/09-banco.md`. Decisão: ADR 0007.
+
 ## 2026-10-20 — Leitura de notas reais da Sefaz-SP
 
 - Teste com 4 notas reais de São José dos Campos (Tauste, Americanas, 2× Carrefour): a página do QR Code não traz EAN/NCM,

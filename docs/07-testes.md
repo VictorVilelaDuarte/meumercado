@@ -7,9 +7,10 @@ Regra: **toda etapa precisa ser testável pelo próprio Claude**, sem ninguém o
 | Regras de negócio | Vitest | `src/domain/__tests__/*.test.ts` | toda função nova em `domain` |
 | Dados de exemplo | Vitest | `src/data/__tests__/` | ao mudar o mock |
 | Leitor de nota | Vitest | `src/nfce/__tests__/` | ao mudar `lerNota` ou ao salvar uma nota real nova em `src/nfce/__fixtures__/` (docs/08-nfce.md) |
+| Banco (SQL, RLS) | Postgres local | `supabase/testes/*.sql` (`npm run test:db`) | toda mudança em `supabase/migrations` (docs/09-banco.md) |
 | Telas e fluxos | Playwright | `e2e/*.spec.ts` | toda tela nova (entra na lista `ROTAS` de `telas.spec.ts`) e todo fluxo com clique |
 
-`npm run verificar` roda typecheck, lint, unitários, build e e2e. Precisa terminar verde antes de commit.
+`npm run verificar` roda typecheck, lint, unitários, banco, build e e2e. Precisa terminar verde antes de commit.
 
 ## E2E
 - Sobe `next start` na porta 3100 sobre o build (por isso o build vem antes).
