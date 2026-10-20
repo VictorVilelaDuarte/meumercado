@@ -10,8 +10,9 @@ Preços são compartilhados; os gastos de cada pessoa são privados. Visão comp
 
 ## Estado atual (atualize a cada etapa)
 
-- **Fase 0 concluída em parte:** front-end completo com **dados de exemplo** (sem banco, sem login, sem leitura real de nota).
-- Próximo passo: teste com notas reais da Sefaz-SP e depois Supabase. Ver `docs/05-roteiro.md`.
+- **Fase 0 quase concluída:** front-end completo com **dados de exemplo** (sem banco, sem login).
+- **Leitura real de nota funciona** (2026-10-20): `/escanear` lê pelo link do QR Code via `POST /api/nfce` → Sefaz-SP, com EAN e NCM. Ainda não grava. Ver `docs/08-nfce.md`.
+- Próximo passo: PWA e depois Supabase. Ver `docs/05-roteiro.md`.
 
 ## Comandos
 
@@ -32,6 +33,8 @@ Primeira vez numa máquina: `npm install` e `npx playwright install chromium`.
 ```
 src/
   domain/      regras de negócio PURAS (sem React, sem I/O). Cada arquivo tem testes em domain/__tests__
+  nfce/        leitor da NFC-e: lerNota.ts (PURO, HTML → NotaLida), codigos.ts (chave, QR, EAN), sefaz.ts (busca, só servidor)
+               __fixtures__/ = notas reais anonimizadas; __tests__/ = testes com elas
   data/        mock.ts (dados de exemplo), repositorio.ts (ÚNICO acesso a dados), consultas.ts (junções para telas)
   components/  ui.tsx (peças visuais), Icone, Mapa, Graficos, NavInferior
   app/         rotas do Next.js. (app)/ = telas com menu inferior; entrar/ = fora do app
@@ -47,9 +50,11 @@ docs/          documentação; decisoes/ guarda as ADRs (por que escolhemos cada
 4. **Privacidade:** notas e gastos só via `repositorio.notasDoUsuario(id)` / `repositorio.nota(id, notaId)`. Ranking mostra só nome e percentual.
 5. **Regra nova vai em `src/domain` com teste**, nunca dentro do componente.
 6. **Visual (decisão do Victor):** fundo SEMPRE escuro; roxo e branco são as cores principais; verde só em gráficos e números (economia, queda de preço). Use os tokens de `src/app/globals.css` (`bg-roxo`, `text-verde`...). Ver `docs/03-design.md`.
-7. **Usuário nunca bipa código de barras.** Produto é reconhecido pela nota. Categoria vem do NCM, sem IA (`docs/decisoes/0003-categorias-por-ncm.md`).
+7. **Usuário nunca bipa código de barras.** Produto é reconhecido pela nota (EAN vem da "Consulta Completa", ADR 0006). Categoria vem do NCM, sem IA (`docs/decisoes/0003-categorias-por-ncm.md`).
 8. **Convite precisa de aprovação do administrador** (`docs/decisoes/0004-convite-com-aprovacao.md`).
 9. Nomes de código em português (como já está).
+10. **Nota real no repositório só anonimizada** (sem CPF, nome, cartão, operador, hash do QR). O leitor nunca lê a aba "Destinatário".
+11. O servidor só consulta `www.nfce.fazenda.sp.gov.br`, e só depois de `lerQrCode` validar a chave.
 
 ## Como trabalhar aqui (obrigatório)
 

@@ -1,4 +1,6 @@
+import { readFileSync } from "node:fs";
 import { expect, test } from "@playwright/test";
+import { lerNota } from "../src/nfce/lerNota";
 
 test("busca filtra produtos", async ({ page }) => {
   await page.goto("/busca?q=neve");
@@ -56,4 +58,26 @@ test("convite já usado é recusado com mensagem", async ({ page }) => {
 test("privacidade: nota de outra pessoa dá 404", async ({ page }) => {
   const resposta = await page.goto("/nota/ana-dutra-2026-10-01");
   expect(resposta?.status()).toBe(404);
+});
+
+test("escanear: colar o link do QR Code mostra a nota lida (Sefaz simulada)", async ({ page }) => {
+  // A Sefaz de verdade não entra no teste: a resposta do servidor vem de uma nota real anonimizada.
+  const nota = lerNota(readFileSync("src/nfce/__fixtures__/tauste-colinas-completa.html", "utf-8"));
+  await page.route("**/api/nfce", (rota) => rota.fulfill({ json: { nota } }));
+
+  await page.goto("/escanear");
+  await page.getByLabel("Link do QR Code").fill("https://www.nfce.fazenda.sp.gov.br/NFCeConsultaPublica/Paginas/ConsultaQRCode.aspx?p=35261065897910001560650260000624591342950530|2|1|1|0");
+  await page.getByRole("button", { name: "Ler nota" }).click();
+  await expect(page.getByTestId("nota-lida")).toContainText("TAUSTE SUPERMERCADOS");
+  const itens = page.getByRole("list", { name: "Itens da nota" }).getByRole("listitem");
+  await expect(itens).toHaveCount(22);
+  await expect(itens.first()).toContainText("FILE FG TEMP BD");
+  await expect(itens.first()).toContainText("Açougue");
+});
+
+test("escanear: link que não é da Sefaz-SP é recusado pelo servidor", async ({ page }) => {
+  await page.goto("/escanear");
+  await page.getByLabel("Link do QR Code").fill("https://exemplo.com/nota?p=1");
+  await page.getByRole("button", { name: "Ler nota" }).click();
+  await expect(page.getByRole("main").getByRole("alert")).toContainText("Sefaz-SP");
 });

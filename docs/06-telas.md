@@ -22,7 +22,10 @@ Teste: "produto mostra mapa e preços por mercado".
 `/mercados?m=<id>` · `(app)/mercados/page.tsx` — Mapa de todos os mercados e ranking pelo índice (100 = média). `?m=` seleciona um mercado.
 
 ## escanear
-`/escanear` — **Simulado.** Visor de câmera e explicação; a leitura real entra depois do teste com notas (roteiro, Fase 0). Mostra a última nota.
+`/escanear` · `(app)/escanear/LerNota.tsx` (cliente) — Visor de câmera (ainda decorativo: câmera é Fase 1) e **leitura real da nota pelo link do QR Code**: a pessoa cola o link, a tela chama `POST /api/nfce`, que busca na Sefaz-SP (`src/nfce/sefaz.ts`) e devolve a nota lida (`src/nfce/lerNota.ts`).
+Mostra mercado, bairro, data, nº de itens, quantos têm código de barras, valor pago, desconto e cada item com categoria pelo NCM (`resumirNota`) ou "revisar". Se a Sefaz só devolveu a versão resumida, avisa que veio sem código de barras. **Ainda não grava** a nota (Fase 1). Embaixo, a última nota de exemplo.
+Erros: link que não é da Sefaz-SP ou chave com dígito errado → 400 com mensagem; Sefaz fora do ar ou captcha → 502.
+Testes: "escanear: colar o link do QR Code mostra a nota lida (Sefaz simulada)" e "escanear: link que não é da Sefaz-SP é recusado pelo servidor".
 
 ## nota
 `/nota/[id]` — Itens da nota da própria pessoa, cada um marcado abaixo/acima/na média, pontos ganhos, itens não reconhecidos.

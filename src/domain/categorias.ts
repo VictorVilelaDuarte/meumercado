@@ -7,7 +7,8 @@ import type { Categoria } from "./tipos";
  * 2º Descrição: se não houver NCM (ou ele não estiver na tabela), procuramos palavras-chave na descrição da nota.
  * 3º Sem resultado: "Outros" com `precisaRevisao = true`, que vai para o painel do administrador.
  *
- * ATENÇÃO: tabela inicial, a validar com notas reais de São José dos Campos (Fase 0).
+ * Tabela inicial, conferida com 4 notas reais de São José dos Campos em 2026-10-20 (src/nfce/__fixtures__).
+ * Teste em src/nfce/__tests__/lerNota.test.ts garante que todo item dessas notas ganha categoria pelo NCM.
  */
 export const TABELA_NCM: Record<string, Categoria> = {
   // Carnes e embutidos
@@ -17,12 +18,14 @@ export const TABELA_NCM: Record<string, Categoria> = {
   "0207": "Açougue", // aves
   "0210": "Açougue", // carnes salgadas/defumadas
   "1601": "Açougue", // embutidos (linguiça, salsicha)
+  "1602": "Açougue", // carnes preparadas (empanados, iscas). Visto no Tauste em 2026-10
   // Laticínios
   "0401": "Laticínios",
   "0402": "Laticínios",
   "0403": "Laticínios",
   "0405": "Laticínios",
   "0406": "Laticínios",
+  "0407": "Laticínios", // ovos ficam junto dos laticínios (visto no Tauste em 2026-10)
   // Hortifrúti: capítulos 07 (legumes) e 08 (frutas)
   "07": "Hortifrúti",
   "08": "Hortifrúti",
@@ -36,6 +39,8 @@ export const TABELA_NCM: Record<string, Categoria> = {
   "1701": "Mercearia", // açúcar
   "1902": "Mercearia", // massas
   "1905": "Mercearia", // pães e biscoitos
+  "2005": "Mercearia", // conservas de legumes (feijão pronto em sachê). Visto no Tauste em 2026-10
+  "2103": "Mercearia", // molhos, maionese, ketchup. Visto no Tauste em 2026-10
   // Bebidas
   "2201": "Bebidas", // água
   "2202": "Bebidas", // refrigerantes e sucos
@@ -47,6 +52,7 @@ export const TABELA_NCM: Record<string, Categoria> = {
   "3307": "Higiene", // desodorante
   "340111": "Higiene", // sabonete
   "4818": "Higiene", // papel higiênico, guardanapo
+  "5601": "Higiene", // algodão e hastes flexíveis. Visto no Carrefour em 2026-10
   // Limpeza
   "3401": "Limpeza", // sabões em geral (o sabonete 340111 vence por ser mais longo)
   "3402": "Limpeza", // detergentes e sabão em pó
